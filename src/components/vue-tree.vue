@@ -1,12 +1,13 @@
 <template>
-   <ul v-show="!!data && !!data.length">
-       <li v-for="(item, index) in data" :key="index">
-           <i @click="addChild(item.children)">add</i>
-           <span @click="active = index" v-if="index !== active">{{item.label}}</span>
-           <input @keyup="handleEnter($event, item.label, index)" type="text" :value='item.label' v-else />
-           <vue-tree :data='item.children'></vue-tree>
-       </li>
-   </ul>
+    <ul v-show="!!data && !!data.length">
+        <li v-for="(item, index) in data" :key="index">
+            <i class='add' @click="addChild(item)">add</i>
+            <i class='del' @click="deleteChild(index)">del</i>
+            <span @click="active = index" v-if="index !== active">{{item.label}}</span>
+            <input @keyup="handleEnter($event, index)" type="text" :value='item.label' v-else />
+            <vue-tree :data='item.children'></vue-tree>
+        </li>
+    </ul>
 </template>
 <script>
 export default {
@@ -18,31 +19,40 @@ export default {
         }
     },
     methods: {
-        handleEnter(e, value, i) {
-            if(e.keyCode === 13) {
+        handleEnter(e, i) {
+            if (e.keyCode === 13) {
                 this.data[i].label = e.target.value
                 this.active = ''
             }
         },
         addChild(data) {
-            data = data || []
-            data.push({
-                label: 'new'
-            })
+            const newChild = { label: 'new...', children: [] }
+            if (!data.children) {
+                this.$set(data, 'children', [])
+            }
+            data.children.push(newChild)
+        },
+        deleteChild(index) {
+            this.data.splice(index, 1)
         }
     }
 }
 </script>
 <style lang="less">
 li {
-    position: relative;
-    width: 220px;
-    i {
-        position: absolute;
-        cursor: pointer;
-        right: 0;
-        top: 0;
+  position: relative;
+  width: 220px;
+  i {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    &.add {
+      right: 30px;
     }
+    &.del {
+      right: 0;
+    }
+  }
 }
 </style>
 

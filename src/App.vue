@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <vue-tree :data="data"></vue-tree>
+        <button @click="show">oo</button>
     </div>
 </template>
 
@@ -52,6 +53,11 @@ export default {
                     }]
                 }]
             }]
+        }
+    },
+    methods: {
+        show() {
+            console.log(this.data)
         }
     },
     components: {
