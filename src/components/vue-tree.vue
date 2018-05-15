@@ -5,14 +5,14 @@
             <i class='del' @click="deleteChild(index)">del</i>
             <span @click="active = index" v-if="index !== active">{{item.label}}</span>
             <input @keyup="handleEnter($event, index)" type="text" :value='item.label' v-else />
-            <vue-tree :data='item.children'></vue-tree>
+            <vue-tree v-if="status" :data='item.children'></vue-tree>
         </li>
     </ul>
 </template>
 <script>
 export default {
     name: 'vueTree',
-    props: ['data'],
+    props: ['data', 'status'],
     data() {
         return {
             active: ''
