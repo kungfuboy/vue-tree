@@ -1,6 +1,7 @@
 <template>
     <ul v-show="!!data && !!data.length">
         <li v-for="(item, index) in data" :key="index">
+            <i class='list' @click="handleList"></i>
             <i class='add' @click="addChild(item)">add</i>
             <i class='del' @click="deleteChild(index)">del</i>
             <span @click="active = index" v-if="index !== active">{{item.label}}</span>
@@ -12,10 +13,11 @@
 <script>
 export default {
     name: 'vueTree',
-    props: ['data', 'status'],
+    props: ['data'],
     data() {
         return {
-            active: ''
+            active: '',
+            status: false
         }
     },
     methods: {
@@ -34,6 +36,9 @@ export default {
         },
         deleteChild(index) {
             this.data.splice(index, 1)
+        },
+        handleList() {
+            this.status = !this.status
         }
     }
 }
